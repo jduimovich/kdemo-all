@@ -1,0 +1,8 @@
+CURRENT=$(pwd)
+cd ../devops-tekton-demo
+sh install.sh
+run-p0
+sleep 10
+cd $CURRENT
+(cd kdemo-app; run-webhook)
+(cd kdemo-config; run-webhook)

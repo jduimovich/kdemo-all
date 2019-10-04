@@ -1,0 +1,17 @@
+clone_or_pull () {
+file_ext=$(basename $1) 
+directory=${file_ext%.*} 
+
+if [ -d $directory ]
+then
+    echo updating $(pwd)/$directory
+    (cd $directory;git pull)
+else   
+    git clone $1
+fi
+}
+
+clone_or_pull https://github.com/$MY_PUBLIC_GIT_USER/kdemo-config.git
+clone_or_pull https://github.com/$MY_PUBLIC_GIT_USER/kdemo-app.git 
+
+
