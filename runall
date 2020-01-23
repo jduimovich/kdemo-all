@@ -3,7 +3,15 @@ cd ../devops-tekton-demo
 source verify-dependencies 
 sh install.sh
 run-p0
-sleep 10
+
+#wait for the pipelines to be installed
+kubectl get pipelines -n $TEKTON_DEMO_NS docker-build-deploy
+until [ $? -eq 0 ]; do 
+echo Waiting for Pipelines to be installed.
+sleep 1
+kubectl get pipelines -n $TEKTON_DEMO_NS docker-build-deploy
+done
+
 cd $CURRENT
 (cd kdemo-app; run-webhook)
 (cd kdemo-config; run-webhook)
