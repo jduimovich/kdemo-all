@@ -13,5 +13,6 @@ fi
 
 clone_or_pull https://github.com/$MY_PUBLIC_GIT_USER/kdemo-config.git
 clone_or_pull https://github.com/$MY_PUBLIC_GIT_USER/kdemo-app.git 
+clone_or_pull https://github.com/$MY_PUBLIC_GIT_USER/devops-tekton-demo.git 
 
 
