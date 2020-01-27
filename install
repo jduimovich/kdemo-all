@@ -13,5 +13,5 @@ kubectl get pipelines -n $TEKTON_DEMO_NS docker-build-deploy
 done
 
 cd $CURRENT
-(cd kdemo-app; run-webhook)
-(cd kdemo-config; run-webhook)
+sh get
+sh deployall

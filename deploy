@@ -1,0 +1,3 @@
+
+(cd kdemo-app; run-p0 deploy)
+(cd kdemo-config; run-p0 deploy)

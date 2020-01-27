@@ -1,0 +1,2 @@
+(cd kdemo-app; run-webhook)
+(cd kdemo-config; run-webhook)
