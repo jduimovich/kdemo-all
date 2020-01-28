@@ -62,4 +62,4 @@ kubectl get pipelines -n $TEKTON_DEMO_NS docker-build-deploy
 done
 
 cd $CURRENT
-sh deployall
+sh deploy
