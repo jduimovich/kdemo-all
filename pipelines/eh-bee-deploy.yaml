@@ -11,7 +11,7 @@ spec:
   tasks:
   - name: eh-bee-deploy
     taskRef:
-      name: run-experiment
+      name: eh-bee-deploy
     resources:
       inputs:
       - name: git-source
