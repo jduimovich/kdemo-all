@@ -57,7 +57,7 @@ run-p0
 kubectl get pipelines -n $TEKTON_DEMO_NS docker-build-deploy
 until [ $? -eq 0 ]; do 
 echo Waiting for Pipelines to be installed.
-sleep 1
+sleep 4
 kubectl get pipelines -n $TEKTON_DEMO_NS docker-build-deploy
 done
 
