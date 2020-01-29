@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: eh-bee-deploy-pipeline
+spec:
+  resources: 
+  - name: git-source
+    type: git
+  - name: docker-image
+    type: image
+  tasks:
+  - name: eh-bee-deploy
+    taskRef:
+      name: run-experiment
+    resources:
+      inputs:
+      - name: git-source
+        resource: git-source 
+    params: 
+      - name: experiment 
+        value: 'iter8/experiment.yaml' 
+      - name: experiment-id 
+        value: '000'  
+      - name: stable 
+        value: demoservice-v1
+      - name: candidate  
+        value: demoservice-v2
+      - name: target-namespace 
+        default: kabanero
