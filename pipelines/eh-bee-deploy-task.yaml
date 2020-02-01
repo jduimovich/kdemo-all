@@ -1,0 +1,99 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: eh-bee-deploy
+spec:
+  inputs:
+    resources:
+      - name: git-source
+        type: git
+    params:
+    - name: pathToDockerFile
+      description: The path to the dockerfile to build
+      default: ./git-source/Dockerfile
+    - name: pathToContext
+      description: The build context used by Kaniko (https://github.com/GoogleContainerTools/kaniko#kaniko-build-contexts)
+      default: ./git-source
+    - name: experiment
+      description: Path to experiment template (relative to source)
+      default: 'iter8/experiment.yaml'
+    - name: experiment-id
+      description: unique identifier of experiment 
+      default: default
+    - name: stable
+      description: stable (default) version of service being tested
+      default: demoservice-v1
+    - name: candidate
+      description: candidate version of service being tested 
+      default: demoservice-v2
+    - name: target-namespace
+      description: namespace in which to apply routing config
+      default: kabanero
+  outputs:
+    resources:
+      - name: container-name
+        type: image
+  steps:
+  - name: show-params
+    image: docker.io/ubuntu
+    command: ['/bin/bash'] 
+    args: ['-c', 'echo Params ${EXPERIMENT} ${EXPERIMENTID} ${STABLE} ${CANDIDATE} ${NS} '] 
+    env:
+      - name: EXPERIMENT
+        value: $(inputs.params.experiment)
+      - name: EXPERIMENTID
+        value: $(inputs.params.experiment-id)
+      - name: STABLE
+        value: $(inputs.params.stable)
+      - name: CANDIDATE
+        value: $(inputs.params.candidate)
+      - name: NS
+        value: $(inputs.params.target-namespace)
+  - name: show-iter8
+    image: docker.io/ubuntu
+    command: ['/bin/bash'] 
+    args: ['-c', 'cat ./git-source/iter8/*'] 
+    env:
+      - name: IMG
+        value: $(outputs.resources.container-name.url)
+  - name: create-ab-experiment-template
+    image: jduimovich/yq
+    command: ['/bin/sh']  
+    args: ['-c', ' /bin/sh ${RUN} ${EXPERIMENT} ${EXPERIMENTID} ${STABLE} ${CANDIDATE}'] 
+    env:
+      - name: RUN
+        value: '/workspace/git-source/iter8.sh'
+      - name: EXPERIMENT
+        value: '/workspace/git-source/$(inputs.params.experiment)'
+      - name: EXPERIMENTID
+        value: $(inputs.params.experiment-id)
+      - name: STABLE
+        value: $(inputs.params.stable)
+      - name: CANDIDATE
+        value: $(inputs.params.candidate)
+  - name: apply
+    image: lachlanevenson/k8s-kubectl
+    command: [ "kubectl" ]
+    args:
+      - "--namespace"
+      - "$(inputs.params.target-namespace)"
+      - "apply"
+      - "--filename"
+      - "/workspace/git-source/$(inputs.params.experiment)"
+  - name: summary
+    image: jduimovich/summary 
+    workingDir: "/workspace/git-source/"
+    command: ['bash'] 
+    args: ['/script.sh']
+    env:
+      - name: REPO
+        value: $(inputs.resources.git-source.url)
+      - name: IMAGE
+        value: $(outputs.resources.container-name.url)
+      - name: DEPLOY
+        value: "/workspace/git-source/config"
+  volumes:
+    - name: docker-socket
+      hostPath:
+        path: /var/run/docker.sock
+        type: Socket

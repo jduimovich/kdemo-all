@@ -15,15 +15,7 @@ spec:
     resources:
       inputs:
       - name: git-source
-        resource: git-source 
-    params: 
-      - name: experiment 
-        value: 'iter8/experiment.yaml' 
-      - name: experiment-id 
-        value: '000'  
-      - name: stable 
-        value: demoservice-v1
-      - name: candidate  
-        value: demoservice-v2
-      - name: target-namespace 
-        default: kabanero
+        resource: git-source
+      outputs:
+      - name: container-name
+        resource: docker-image
