@@ -3,7 +3,7 @@ kind: Experiment
 metadata:
   name: demoservice
   labels:
-    app.kubernetes.io/name: reviews
+    app.kubernetes.io/name: demoservice
 spec:
   targetService:
     name: demoservice

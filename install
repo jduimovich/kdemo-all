@@ -66,6 +66,7 @@ kubectl apply \
     -f https://raw.githubusercontent.com/iter8-tools/iter8-controller/master/install/iter8-controller.yaml 
 
 
+run-p0
 
 cd $CURRENT
 sh deploy
