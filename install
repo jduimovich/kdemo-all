@@ -19,12 +19,16 @@ fi
 
 if [ -z $TEKTON_DEMO_NS ]
 then
-export TEKTON_DEMO_NS=tekton-pipelines
+export TEKTON_DEMO_NS=kabanero
 fi
 if [ -z $TEKTON_DEMO_SA ]
 then 
 export TEKTON_DEMO_SA=tekton-dashboard
-fi
+fi 
+if [ -z $MY_PUBLIC_GIT_USER ]
+then 
+export MY_PUBLIC_GIT_USER=jduimovich
+fi 
 
 verify_env "TEKTON_DEMO_NS"
 verify_env "TEKTON_DEMO_SA"
@@ -39,8 +43,9 @@ if [ -z $ERROR ]
 then
 echo $0 "Environment Variables OK"
 else
-echo $0 "Some Environment Variables Missing, see log."
-exit 
+echo $0 "WARNING: Some Environment Variables Missing, see log."
+echo $0 "Deploy will still work with defaults but recommend adding correct configuration."
+#exit 
 fi
 
 sh get
