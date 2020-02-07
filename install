@@ -73,4 +73,5 @@ kubectl apply \
 cd $CURRENT
 
 run-p0
+sleep 1
 sh deploy

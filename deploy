@@ -1,3 +1,4 @@
 
 (cd kdemo-app; run-p0 deploy)
+sleep 1
 (cd kdemo-config; run-p0 deploy)
