@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
-  name: eh-bee-deploy-pipeline
+  name: a-b-deploy-pipeline
 spec:
   resources: 
   - name: git-source
@@ -9,9 +9,9 @@ spec:
   - name: docker-image
     type: image
   tasks:
-  - name: eh-bee-deploy
+  - name: a-b-deploy
     taskRef:
-      name: eh-bee-deploy
+      name: a-b-deploy
     resources:
       inputs:
       - name: git-source

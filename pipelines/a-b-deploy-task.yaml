@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: eh-bee-deploy
+  name: a-b-deploy
 spec:
   inputs:
     resources:
