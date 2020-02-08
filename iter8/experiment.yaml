@@ -12,9 +12,9 @@ spec:
     candidate: demoservice-v2
   trafficControl:
     strategy: increment_without_check
-    interval: 30s
-    trafficStepSize: 20
-    maxIterations: 8 #default value = 100
+    interval: 3s
+    trafficStepSize: 2
+    maxIterations: 50 #default value = 100
     maxTrafficPercentage: 90 #default value = 50
   analysis:
     analyticsService: "http://iter8-analytics.iter8"
