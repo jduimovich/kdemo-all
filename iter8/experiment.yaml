@@ -16,6 +16,10 @@ spec:
     trafficStepSize: 2
     maxIterations: 50 #default value = 100
     maxTrafficPercentage: 90 #default value = 50
+  routingReference:
+    apiversion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    name: demoservice
   analysis:
     analyticsService: "http://iter8-analytics.iter8"
     successCriteria:
