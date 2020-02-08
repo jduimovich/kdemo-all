@@ -1,4 +1,6 @@
 
+CURRENT=$(pwd)
+
 verify_env () {
 name=$1
 val=${!name}
@@ -50,9 +52,6 @@ fi
 
 sh get
 
-CURRENT=$(pwd)
-EXPORT PATH=$PATH;$CURRENT/devops-tekton-demo/scripts
-
 cd devops-tekton-demo
 source verify-dependencies 
 sh install.sh
@@ -75,3 +74,13 @@ cd $CURRENT
 run-p0
 sleep 1
 sh deploy
+
+NEWENTRY=$CURRENT/devops-tekton-demo/scripts
+if [[ ":$PATH:" == *":$NEWENTRY:"* ]]; then
+  echo "Your path is setup correctly with  " $NEWENTRY
+else
+  echo "Your path is missing " $NEWENTRY
+  echo "Add this to path via the command "
+  export PATH=$PATH:$NEWENTRY
+fi
+
